@@ -1,4 +1,4 @@
-function NotFoundPage(): JSX.Element {
+function NotFoundPage() {
   return (
     <div className="page page--gray">
       <main className="page__main">
