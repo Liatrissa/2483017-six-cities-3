@@ -10,3 +10,5 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const STAR_WIDTH_PERCENT = 20;

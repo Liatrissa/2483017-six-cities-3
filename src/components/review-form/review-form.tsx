@@ -11,23 +11,23 @@ function ReviewForm() {
     review: '',
   });
 
-  function handleRatingChange(evt: ChangeEvent<HTMLInputElement>) {
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       rating: evt.target.value,
     });
-  }
+  };
 
-  function handleReviewChange(evt: ChangeEvent<HTMLTextAreaElement>) {
+  const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       review: evt.target.value,
     });
-  }
+  };
 
-  function handleSubmit(evt: FormEvent<HTMLFormElement>) {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-  }
+  };
 
   return (
     <form

@@ -1,5 +1,6 @@
+import classNames from 'classnames';
 import { Link, useParams } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, STAR_WIDTH_PERCENT } from '../../const';
 import { Offer } from '../../types/offer';
 import ReviewForm from '../../components/review-form/review-form';
 
@@ -129,9 +130,11 @@ function OfferPage({offers}: OfferPageProps) {
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
                 <button
-                  className={`offer__bookmark-button ${
-                    isFavorite ? 'offer__bookmark-button--active' : ''
-                  } button`}
+                  className={classNames(
+                    'offer__bookmark-button',
+                    'button',
+                    {'offer__bookmark-button--active': isFavorite}
+                  )}
                   type="button"
                 >
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -144,7 +147,7 @@ function OfferPage({offers}: OfferPageProps) {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${rating * 20}%`}}></span>
+                  <span style={{width: `${rating * STAR_WIDTH_PERCENT}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{rating}</span>

@@ -9,7 +9,7 @@ type MainPageProps = {
 };
 
 function MainPage({offers}: MainPageProps) {
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+  const [, setActiveOfferId] = useState<string | null>(null);
   const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
 
   return (
