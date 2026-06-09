@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Offer } from '../../types/offer';
 import OffersList from '../../components/offer-list/offer-list';
+import Map from '../../components/map/map';
+import { amsterdam } from '../../mocks/offers';
 
 type MainPageProps = {
   offers: Offer[];
@@ -10,7 +12,10 @@ type MainPageProps = {
 
 function MainPage({offers}: MainPageProps) {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
   const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
+
+  const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
 
   return (
     <div className="page page--gray page--main">
@@ -114,7 +119,11 @@ function MainPage({offers}: MainPageProps) {
               />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={amsterdam}
+                offers={offers}
+                selectedOffer={selectedOffer}
+              />
             </div>
           </div>
         </div>
