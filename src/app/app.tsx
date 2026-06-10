@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offer';
+import { Review } from '../types/review';
 import MainPage from '../pages/main-page/main-page';
 import LoginPage from '../pages/login-page/login-page';
 import FavoritesPage from '../pages/favorites-page/favorites-page';
@@ -10,9 +11,10 @@ import PrivateRoute from '../components/private-route/private-route';
 
 type AppProps = {
   offers: Offer[];
+  reviews: Review[];
 };
 
-function App({offers}: AppProps) {
+function App({offers, reviews}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
@@ -34,7 +36,7 @@ function App({offers}: AppProps) {
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferPage offers={offers} />}
+          element={<OfferPage offers={offers} reviews={reviews} />}
         />
         <Route
           path="*"

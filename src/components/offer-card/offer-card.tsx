@@ -5,11 +5,19 @@ import { Offer } from '../../types/offer';
 
 type OfferCardProps = {
   offer: Offer;
-  onMouseEnter: (offerId: string) => void;
-  onMouseLeave: () => void;
+  onMouseEnter?: (offerId: string) => void;
+  onMouseLeave?: () => void;
+  cardClassName?: string;
+  imageWrapperClassName?: string;
 };
 
-function OfferCard({offer, onMouseEnter, onMouseLeave}: OfferCardProps) {
+function OfferCard({
+  offer,
+  onMouseEnter,
+  onMouseLeave,
+  cardClassName = 'cities__card place-card',
+  imageWrapperClassName = 'cities__image-wrapper place-card__image-wrapper',
+}: OfferCardProps) {
   const {
     id,
     title,
@@ -24,8 +32,8 @@ function OfferCard({offer, onMouseEnter, onMouseLeave}: OfferCardProps) {
 
   return (
     <article
-      className="cities__card place-card"
-      onMouseEnter={() => onMouseEnter(id)}
+      className={cardClassName}
+      onMouseEnter={() => onMouseEnter?.(id)}
       onMouseLeave={onMouseLeave}
     >
       {isPremium && (
@@ -33,7 +41,7 @@ function OfferCard({offer, onMouseEnter, onMouseLeave}: OfferCardProps) {
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={imageWrapperClassName}>
         <Link to={offerPath}>
           <img
             className="place-card__image"
