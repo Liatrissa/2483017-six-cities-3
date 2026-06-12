@@ -53,6 +53,18 @@ function Map({city, offers, selectedOffer, className = 'cities__map map'}: MapPr
     }
   }, [map, offers, selectedOffer]);
 
+  useEffect(() => {
+    if (map) {
+      map.setView(
+        {
+          lat: city.location.lat,
+          lng: city.location.lng,
+        },
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
   return (
     <section
       className={className}

@@ -1,21 +1,35 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Offer } from '../../types/offer';
 import OffersList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
-import { amsterdam } from '../../mocks/offers';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import CitiesList from '../../components/cities-list/cities-list';
+import { City } from '../../types/offer';
+import { changeCity } from '../../store/action';
+import { cities } from '../../mocks/cities';
 
-type MainPageProps = {
-  offers: Offer[];
-};
-
-function MainPage({offers}: MainPageProps) {
+function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const city = useAppSelector((state) => state.city);
+
+  const offers = useAppSelector((state) => state.offers);
+
+  const currentCityOffers = offers.filter(
+    (offer) => offer.city.name === city.name
+  );
 
   const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
 
-  const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
+  const selectedOffer = currentCityOffers.find((offer) => offer.id === activeOfferId);
+
+  const handleCityClick = (selectedCity: City) => {
+    setActiveOfferId(null);
+    dispatch(changeCity(selectedCity));
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -58,45 +72,18 @@ function MainPage({offers}: MainPageProps) {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CitiesList
+              cities={cities}
+              activeCity={city}
+              onCityClick={handleCityClick}
+            />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{currentCityOffers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -113,15 +100,15 @@ function MainPage({offers}: MainPageProps) {
                 </ul>
               </form>
               <OffersList
-                offers={offers}
+                offers={currentCityOffers}
                 onCardMouseEnter={setActiveOfferId}
                 onCardMouseLeave={() => setActiveOfferId(null)}
               />
             </section>
             <div className="cities__right-section">
               <Map
-                city={amsterdam}
-                offers={offers}
+                city={city}
+                offers={currentCityOffers}
                 selectedOffer={selectedOffer}
               />
             </div>

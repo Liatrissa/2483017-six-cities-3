@@ -1,13 +1,5 @@
-import { City, Offer } from '../types/offer';
-
-export const amsterdam: City = {
-  name: 'Amsterdam',
-  location: {
-    lat: 52.35514938496378,
-    lng:  4.673877537499948,
-    zoom: 8,
-  },
-};
+import { Offer } from '../types/offer';
+import { cities } from './cities';
 
 export const offers: Offer[] = [
   {
@@ -15,7 +7,7 @@ export const offers: Offer[] = [
     title: 'Beautiful & luxurious studio at great location',
     type: 'Apartment',
     price: 120,
-    city: amsterdam,
+    city: cities[3],
     location: {
       lat: 52.3909553943508,
       lng: 4.85309666406198,
@@ -31,7 +23,7 @@ export const offers: Offer[] = [
     title: 'Wood and stone place',
     type: 'Room',
     price: 80,
-    city: amsterdam,
+    city: cities[3],
     location: {
       lat: 52.3609553943508,
       lng: 4.85309666406198,
@@ -47,7 +39,7 @@ export const offers: Offer[] = [
     title: 'Canal View Prinsengracht',
     type: 'Apartment',
     price: 132,
-    city: amsterdam,
+    city: cities[3],
     location: {
       lat: 52.3909553943508,
       lng: 4.929309666406198,
@@ -63,7 +55,7 @@ export const offers: Offer[] = [
     title: 'Nice, cozy, warm big bed apartment',
     type: 'Apartment',
     price: 180,
-    city: amsterdam,
+    city: cities[3],
     location: {
       lat: 52.3809553943508,
       lng: 4.939309666406198,
@@ -73,5 +65,21 @@ export const offers: Offer[] = [
     isPremium: true,
     rating: 5,
     previewImage: 'img/apartment-03.jpg',
+  },
+  {
+    id: '5',
+    title: 'Beautiful & luxurious studio at great location',
+    type: 'Apartment',
+    price: 120,
+    city: cities[0],
+    location: {
+      lat: 48.8566100000000,
+      lng: 2.3514990000000,
+      zoom: 8,
+    },
+    isFavorite: false,
+    isPremium: false,
+    rating: 4,
+    previewImage: 'img/apartment-01.jpg',
   },
 ];
