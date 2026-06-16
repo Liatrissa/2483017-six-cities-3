@@ -12,7 +12,7 @@ function CitiesList({cities, activeCity, onCityClick}: CitiesListProps) {
     <ul className="locations__list tabs__list">
       {cities.map((city) => (
         <li className="locations__item" key={city.name}>
-          <a
+          <button
             className={classNames(
               'locations__item-link',
               'tabs__item',
@@ -20,14 +20,11 @@ function CitiesList({cities, activeCity, onCityClick}: CitiesListProps) {
                 'tabs__item--active': city.name === activeCity.name,
               }
             )}
-            href="#"
-            onClick={(evt) => {
-              evt.preventDefault();
-              onCityClick(city);
-            }}
+            type="button"
+            onClick={() => onCityClick(city)}
           >
             <span>{city.name}</span>
-          </a>
+          </button>
         </li>
       ))}
     </ul>

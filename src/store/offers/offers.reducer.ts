@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { City, Offer } from '../types/offer';
-import { offers } from '../mocks/offers';
-import { cities } from '../mocks/cities';
-import { changeCity, fillOffers } from './action';
+import { City, Offer } from '../../types/offer';
+import { offers } from '../../mocks/offers';
+import { cities } from '../../mocks/cities';
+import { changeCity, fillOffers } from './offers.actions';
 
 type InitialState = {
   city: City;

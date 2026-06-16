@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute,SortOption } from '../../const';
+import { AppRoute, SortOption } from '../../const';
 import OffersList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import CitiesList from '../../components/cities-list/cities-list';
 import { City, Offer } from '../../types/offer';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/offers';
 import { cities } from '../../mocks/cities';
 import SortingOptions from '../../components/sorting-options/sorting-options';
 
