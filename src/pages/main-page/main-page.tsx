@@ -5,29 +5,11 @@ import OffersList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import CitiesList from '../../components/cities-list/cities-list';
-import { City, Offer } from '../../types/offer';
+import { City } from '../../types/offer';
 import { changeCity } from '../../store/offers';
 import { cities } from '../../mocks/cities';
 import SortingOptions from '../../components/sorting-options/sorting-options';
-
-const getSortedOffers = (
-  offers: Offer[],
-  sortOption: SortOption
-) => {
-  switch (sortOption) {
-    case SortOption.PriceLowToHigh:
-      return [...offers].sort((firstOffer, secondOffer) => firstOffer.price - secondOffer.price);
-
-    case SortOption.PriceHighToLow:
-      return [...offers].sort((firstOffer, secondOffer) => secondOffer.price - firstOffer.price);
-
-    case SortOption.TopRatedFirst:
-      return [...offers].sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating);
-
-    case SortOption.Popular:
-      return [...offers];
-  }
-};
+import { getSortedOffers } from '../../utils';
 
 function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
