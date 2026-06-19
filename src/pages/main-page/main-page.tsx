@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute, SortOption } from '../../const';
+import { AppRoute, CITIES, SortOption } from '../../const';
 import OffersList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import CitiesList from '../../components/cities-list/cities-list';
-import { City } from '../../types/offer';
 import { changeCity } from '../../store/offers';
-import { cities } from '../../mocks/cities';
 import SortingOptions from '../../components/sorting-options/sorting-options';
 import { getSortedOffers } from '../../utils';
 
@@ -22,7 +20,7 @@ function MainPage() {
   const offers = useAppSelector((state) => state.offers);
 
   const currentCityOffers = offers.filter(
-    (offer) => offer.city.name === city.name
+    (offer) => offer.city.name === city
   );
 
   const sortedOffers = getSortedOffers(currentCityOffers, activeSortOption);
@@ -31,9 +29,11 @@ function MainPage() {
 
   const selectedOffer = currentCityOffers.find((offer) => offer.id === activeOfferId);
 
-  const handleCityClick = (selectedCity: City) => {
+  const selectedCity = currentCityOffers[0]?.city;
+
+  const handleCityClick = (selectedCityName: string) => {
     setActiveOfferId(null);
-    dispatch(changeCity(selectedCity));
+    dispatch(changeCity(selectedCityName));
   };
 
   return (
@@ -78,7 +78,7 @@ function MainPage() {
         <div className="tabs">
           <section className="locations container">
             <CitiesList
-              cities={cities}
+              cities={CITIES}
               activeCity={city}
               onCityClick={handleCityClick}
             />
@@ -88,7 +88,7 @@ function MainPage() {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentCityOffers.length} places to stay in {city.name}</b>
+              <b className="places__found">{currentCityOffers.length} places to stay in {city}</b>
               <SortingOptions
                 activeSortOption={activeSortOption}
                 onSortOptionChange={setActiveSortOption}
@@ -100,11 +100,13 @@ function MainPage() {
               />
             </section>
             <div className="cities__right-section">
-              <Map
-                city={city}
-                offers={currentCityOffers}
-                selectedOffer={selectedOffer}
-              />
+              {selectedCity && (
+                <Map
+                  city={selectedCity}
+                  offers={currentCityOffers}
+                  selectedOffer={selectedOffer}
+                />
+              )}
             </div>
           </div>
         </div>

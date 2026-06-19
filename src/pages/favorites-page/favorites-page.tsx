@@ -1,12 +1,9 @@
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, STAR_WIDTH_PERCENT } from '../../const';
-import { Offer } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 
-type FavoritesPageProps = {
-  offers: Offer[];
-};
-
-function FavoritesPage({offers}: FavoritesPageProps) {
+function FavoritesPage() {
+  const offers = useAppSelector((state) => state.offers);
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (

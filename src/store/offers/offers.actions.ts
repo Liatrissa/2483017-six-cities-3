@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { City, Offer } from '../../types/offer';
+import { Offer } from '../../types/offer';
 
-const changeCity = createAction<City>('offers/changeCity');
+export const changeCity = createAction<string>('offers/changeCity');
 
-const fillOffers = createAction<Offer[]>('offers/fillOffers');
+export const fillOffers = createAction<Offer[]>('offers/fillOffers');
 
-export { changeCity, fillOffers };
+export const setOffersLoadingStatus = createAction<boolean>('offers/setOffersLoadingStatus');

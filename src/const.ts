@@ -11,6 +11,10 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  Offers = '/offers',
+}
+
 export const STAR_WIDTH_PERCENT = 20;
 
 export const URL_MARKER_DEFAULT = '/img/pin.svg';
@@ -41,3 +45,7 @@ export const SORT_OPTIONS = [
   SortOption.PriceHighToLow,
   SortOption.TopRatedFirst,
 ];
+
+export const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
+
+export const REQUEST_TIMEOUT = 5000;

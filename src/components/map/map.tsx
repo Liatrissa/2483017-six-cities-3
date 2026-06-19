@@ -34,8 +34,8 @@ function Map({city, offers, selectedOffer, className = 'cities__map map'}: MapPr
 
       offers.forEach((offer) => {
         const marker = new Marker({
-          lat: offer.location.lat,
-          lng: offer.location.lng
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
         });
 
         marker
@@ -57,8 +57,8 @@ function Map({city, offers, selectedOffer, className = 'cities__map map'}: MapPr
     if (map) {
       map.setView(
         {
-          lat: city.location.lat,
-          lng: city.location.lng,
+          lat: city.location.latitude,
+          lng: city.location.longitude,
         },
         city.location.zoom
       );
