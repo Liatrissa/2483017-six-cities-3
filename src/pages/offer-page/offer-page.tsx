@@ -1,19 +1,14 @@
 import classNames from 'classnames';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute, STAR_WIDTH_PERCENT, NEARBY_OFFERS_LIMIT } from '../../const';
-import { Offer } from '../../types/offer';
-import { Review } from '../../types/review';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list';
+import { useAppSelector } from '../../hooks';
 
-type OfferPageProps = {
-  offers: Offer[];
-  reviews: Review[];
-};
-
-function OfferPage({offers, reviews}: OfferPageProps) {
+function OfferPage() {
+  const offers = useAppSelector((state) => state.offers);
   const {id} = useParams();
   const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
   const currentOffer = offers.find((offer) => offer.id === id);
@@ -241,7 +236,7 @@ function OfferPage({offers, reviews}: OfferPageProps) {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <ReviewsList reviews={reviews} />
+                <ReviewsList reviews={[]} />
                 <ReviewForm />
               </section>
             </div>

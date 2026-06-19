@@ -1,20 +1,21 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../const';
-import { Offer } from '../types/offer';
-import { Review } from '../types/review';
 import MainPage from '../pages/main-page/main-page';
 import LoginPage from '../pages/login-page/login-page';
 import FavoritesPage from '../pages/favorites-page/favorites-page';
 import OfferPage from '../pages/offer-page/offer-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../components/private-route/private-route';
+import Spinner from '../components/spinner/spinner';
+import {useAppSelector} from '../hooks';
 
-type AppProps = {
-  offers: Offer[];
-  reviews: Review[];
-};
+function App() {
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
-function App({offers, reviews}: AppProps) {
+  if (isOffersLoading) {
+    return <Spinner />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -30,13 +31,13 @@ function App({offers, reviews}: AppProps) {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesPage offers={offers} />
+              <FavoritesPage />
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferPage offers={offers} reviews={reviews} />}
+          element={<OfferPage />}
         />
         <Route
           path="*"
