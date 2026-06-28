@@ -1,15 +1,33 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../const';
+import { sendReviewAction } from '../../store/api-actions';
+
+type ReviewFormProps = {
+  offerId: string;
+};
 
 type ReviewFormData = {
   rating: string;
   review: string;
 };
 
-function ReviewForm() {
+function ReviewForm({offerId}: ReviewFormProps) {
+  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState<ReviewFormData>({
     rating: '',
     review: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const isSubmitDisabled =
+    isSubmitting ||
+    !formData.rating ||
+    formData.review.length < MIN_REVIEW_LENGTH ||
+    formData.review.length > MAX_REVIEW_LENGTH;
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -27,6 +45,35 @@ function ReviewForm() {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
+    if (isSubmitDisabled) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    dispatch(sendReviewAction({
+      offerId,
+      comment: formData.review,
+      rating: Number(formData.rating),
+    }))
+
+      .then((result) => {
+        if (sendReviewAction.fulfilled.match(result)) {
+          setFormData({
+            rating: '',
+            review: '',
+          });
+        }
+
+        if (sendReviewAction.rejected.match(result)) {
+          setErrorMessage('Failed to send review. Please try again.');
+        }
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -46,6 +93,7 @@ function ReviewForm() {
           type="radio"
           checked={formData.rating === '5'}
           onChange={handleRatingChange}
+          disabled={isSubmitting}
         />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
@@ -61,6 +109,7 @@ function ReviewForm() {
           type="radio"
           checked={formData.rating === '4'}
           onChange={handleRatingChange}
+          disabled={isSubmitting}
         />
         <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
           <svg className="form__star-image" width="37" height="33">
@@ -76,6 +125,7 @@ function ReviewForm() {
           type="radio"
           checked={formData.rating === '3'}
           onChange={handleRatingChange}
+          disabled={isSubmitting}
         />
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
@@ -91,6 +141,7 @@ function ReviewForm() {
           type="radio"
           checked={formData.rating === '2'}
           onChange={handleRatingChange}
+          disabled={isSubmitting}
         />
         <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
           <svg className="form__star-image" width="37" height="33">
@@ -106,6 +157,7 @@ function ReviewForm() {
           type="radio"
           checked={formData.rating === '1'}
           onChange={handleRatingChange}
+          disabled={isSubmitting}
         />
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
@@ -120,12 +172,25 @@ function ReviewForm() {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.review}
         onChange={handleReviewChange}
+        disabled={isSubmitting}
       />
+
+      {errorMessage && (
+        <p className="reviews__help" style={{color: 'red'}}>
+          {errorMessage}
+        </p>
+      )}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={isSubmitDisabled}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );

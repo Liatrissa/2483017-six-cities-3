@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { AppRoute } from '../const';
 import MainPage from '../pages/main-page/main-page';
 import LoginPage from '../pages/login-page/login-page';
@@ -40,8 +40,12 @@ function App() {
           element={<OfferPage />}
         />
         <Route
-          path="*"
+          path={AppRoute.NotFound}
           element={<NotFoundPage />}
+        />
+        <Route
+          path="*"
+          element={<Navigate to={AppRoute.NotFound} replace />}
         />
       </Routes>
     </BrowserRouter>
