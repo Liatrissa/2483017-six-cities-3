@@ -1,6 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Offer } from '../../types/offer';
-import { changeCity, fillOffers, requireAuthorization, setOffersLoadingStatus, setUserEmail } from './offers.actions';
+import { Offer, OfferDetails } from '../../types/offer';
+import { Review } from '../../types/review';
+import {
+  changeCity,
+  fillOffers,
+  requireAuthorization,
+  setOffersLoadingStatus,
+  setUserEmail,
+  fillOffer,
+  fillNearbyOffers,
+  fillReviews,
+  setOfferLoadingStatus,
+  setOfferNotFoundStatus,
+} from './offers.actions';
 import { AuthorizationStatus, CITIES } from '../../const';
 
 type InitialState = {
@@ -9,6 +21,11 @@ type InitialState = {
   isOffersLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userEmail: string;
+  currentOffer: OfferDetails | null;
+  nearbyOffers: Offer[];
+  reviews: Review[];
+  isOfferLoading: boolean;
+  isOfferNotFound: boolean;
 };
 
 const initialState: InitialState = {
@@ -17,6 +34,11 @@ const initialState: InitialState = {
   isOffersLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: '',
+  currentOffer: null,
+  nearbyOffers: [],
+  reviews: [],
+  isOfferLoading: false,
+  isOfferNotFound: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -35,6 +57,21 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserEmail, (state, action) => {
       state.userEmail = action.payload;
+    })
+    .addCase(fillOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(fillNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(fillReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(setOfferLoadingStatus, (state, action) => {
+      state.isOfferLoading = action.payload;
+    })
+    .addCase(setOfferNotFoundStatus, (state, action) => {
+      state.isOfferNotFound = action.payload;
     });
 });
 
